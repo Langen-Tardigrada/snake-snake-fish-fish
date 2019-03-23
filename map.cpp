@@ -25,7 +25,26 @@ void drawsqr(int x,int y){
 			}
 		}
 		cout<<endl;
+        for(int i=0;i<x;i++){
+            if(i==0 || i==x-1){
+                cout<<"|";
+            }else{
+                cout<<" ";
+            }
+        }
+        cout<<endl;
 	}
+    for(int i=0;i<x;i++){
+			if(i==0 || i==x-1){
+			
+				cout<<"|";
+			}else if((i==1 ||i==2)){
+				cout<<" ";
+			}
+			else{
+				cout<<"-";
+			}
+		}
 }
 
 int main(){
@@ -33,7 +52,7 @@ int main(){
 		cout<<"*";
 	}
 	cout<<endl;
-	drawsqr(100,50);
+	drawsqr(3,3);
 	
 	
 	
