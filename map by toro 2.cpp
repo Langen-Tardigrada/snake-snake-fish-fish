@@ -1,20 +1,17 @@
 #include<iostream>
-#include<string>
-#include <vector>
 using namespace std;
 
 void mademap(int n,int m);
 
-string a[3][3];
+char a[3][3];
 
 int main(){
     int i=0,j=0;
     cout<<"please select map hightxlenght: ";
     cin>>i>>j;
-    //ใส่ค่าให้ a ขี้เกียจใส่เอง
     for(int i=0;i<3;i++){
-        for(int j=0;j<3;j++){
-            a[i][j]="  ";
+        for(int j=0;j<6;j++){
+            a[i][j]=' ';
         }
     }
     mademap(i,j);
@@ -23,8 +20,8 @@ int main(){
 }
 
 void mademap(int n,int m){
-    
-    string num="01";
+	int u=1;
+    char x;
     for(int h=0; h<m; h++){
         cout<<"- - - - ";
     }
@@ -33,10 +30,28 @@ void mademap(int n,int m){
                 for(int i=0;i<3;i++){
                     for(int p=0;p<m;p++){
                         cout<<"|";
-                        for(int j=0;j<3;j++){
-                            a[1][1]=num;
+                        for(int j=0;j<6;j++){
+                        	if(i==1){
+                        		if(u/10==0){
+                        			if(j==2){
+                        				a[i][j]='0';
+									}else if(j==3){
+										x='0'+u;
+										a[i][j]=x;
+										u++;
+									}
+								}else if(u/10!=0){
+                        			if(j==2){
+                        				x='0'+(u/10);
+                        				a[i][j]=x;
+									}else if(j==3){
+										x='0'+(u%10);
+										a[i][j]=x;
+										u++;
+									}
+								}
+							}
                             cout<<a[i][j];
-
                         }
                     }
                     cout<<"|";
@@ -48,18 +63,4 @@ void mademap(int n,int m){
         }
         cout<<endl;
     }
-    /*for(int i=0;i<n;i++){
-        for(int j=0;j<m;j++){
-            if(i%2==0){
-                cout<<"- - - - ";
-            }else{
-                for(int i=0;i<6;i++){
-                    for(int j=0;j<6;j++){
-                        cout<<a[i][j];
-                    }
-                    cout<<endl;
-                }
-            }
-        }
-    }*/
 }
