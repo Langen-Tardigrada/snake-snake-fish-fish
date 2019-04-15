@@ -1,37 +1,103 @@
 #include<iostream>
 #include<string>
-#include<fstream>
-#include<ctime>
+#include<cstring>
 #include<cstdlib>
+#include<vector>
+#include<ctime>
 using namespace std;
+
+class Trap_Tsure{
+	public:
+		string number_of_trap[12];
+		string number_of_tsure[12];
+		string imgtrap[12];
+		string imgtsure[12];
+		void showtrap_tsure_map();
+		void showtsure_player();
+		void showtrap_player();
+};
+
+class Player{
+	string name;
+	string collect_trap[5];
+	string collect_tsure[5];
+	int score;
+	string character;
+	string gagehp[10];
+	int hp;
+	int hpmax;
+	bool dice_on;
+	Trap_Tsure collect;
+	public:
+		int move;
+		void newturn();
+		void diceturn();
+		void changhp(int );
+		void dice();
+		void totalscore();
+		void choosechar();	
+};
+ 
+void Player::dice(){
+	if(dice_on==1){
+		move=(rand()%6)+1;
+	}
+}
+void Player::diceturn(){
+	dice_on = true;
+}
+
+void Player::newturn(){
+	dice_on = false;
+}
 string a[3][6];
 int ice=0;
-void mademap(int ,int );
-void dice();
-void update(int ,int );
+void mademap(int ,int ,int );
+void update(int ,int ,int );
 
 int main(){
+	Player one;
+	Player two;
     srand(time(0));
     int i=0,j=0;
-    cout<<"Input height: ";
-    cin>>i;
-    cout<<"Input lenght: ";
-    cin>>j;
+    cout<<"Input heightxlenght: ";
+    cin>>i>>j;
     for(int i=0;i<3;i++){
         for(int j=0;j<6;j++){
             a[i][j]=" ";
         }
     }
-    mademap(i,j);
-    system("pause");
-    dice();
-    cout<<"Your luck is: "<<ice<<endl;
-    mademap(i,j);
+    //-------------------------------------------------------------------------
+    one.newturn();
+  	two.newturn();
+  	one.move=0;
+  	two.move=0;
+  	char action;
+  	mademap(i,j,one.move);
+   while(true){
+		cout<<"Please PlayerI choose action in your turn\npress [D] = Dice, [U] = Use item, [E] = Exit \n";
+  		cout<<"Your device: ";
+  		cin>>action;
+  		action = toupper(action);
+  		if(action == 'E'){
+		  	cout<<"Your turn: exit game";
+  			break;
+		}else if(action == 'D'){
+			cout<<"Your turn: Roll a dice\n";
+			system("pause");
+			one.diceturn();
+  			one.dice();
+    		cout<<"Your luck is: "<<one.move<<endl;
+    		mademap(i,j,one.move);
+		}else{
+			//write use item
+		}	
+	}
     return 0;
 }
 
 
-void mademap(int n,int m){
+void mademap(int n,int m, int go){
     int x=0,y=1;
     int ber=0;
     int num=0;
@@ -43,13 +109,13 @@ void mademap(int n,int m){
     for(int k=0; k<n; k++){
         for(int i=0;i<3;i++){
             for(int p=0;p<m;p++){
-                cout<<"|"; //ä»¢ÇÒ
+                cout<<"|"; 
                 for(int j=0;j<6;j++){
-                    if(ber==ice+(m*num)){
+                    if(ber==go+(m*num)){
                         a[0][0]="*";
                     }
+					char buffer[100];
                     if(i==1 && j==3){
-                    	char buffer[100];
                         a[1][2]=itoa(x,buffer,10);//to_string can't complie on dev-c++ because gcc(11) then use like this link-->
                         //http://www.cplusplus.com/reference/cstdlib/itoa/
                         //use this--> https://fresh2refresh.com/c-programming/c-type-casting/c-itoa-function/
@@ -57,7 +123,6 @@ void mademap(int n,int m){
                         y++;
                     }
                     else if(i==1 && j==2){
-                    	char buffer[100];
                         a[1][2]=a[1][2]=itoa(x,buffer,10);
                         a[1][3]=a[1][3]=itoa(y,buffer,10);
                     }
@@ -79,8 +144,4 @@ void mademap(int n,int m){
         cout<<endl;
         num+=2;
     }
-}
-
-void dice(){
-    ice =(rand()%6)+1;
 }
