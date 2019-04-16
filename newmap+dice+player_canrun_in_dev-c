@@ -6,17 +6,84 @@
 #include<ctime>
 using namespace std;
 
+//-----------------------------(class&func for trap+tsure)
 class Trap_Tsure{
+	int number_of_trap[12];
+	int number_of_tsure[12];
+	string imgtrap[12];
+	string imgtsure[12];
 	public:
-		string number_of_trap[12];
-		string number_of_tsure[12];
-		string imgtrap[12];
-		string imgtsure[12];
+		Trap_Tsure();
 		void showtrap_tsure_map();
 		void showtsure_player();
 		void showtrap_player();
+		void list_trap();
+		void list_tsure();
+		void testshow();
 };
 
+Trap_Tsure::Trap_Tsure(){
+	int x=41;
+	for(int i=0; i<12; i++){
+		if(x%10==4){
+			x=x+10-3;
+		}
+		number_of_trap[i]=x;
+		x++;
+	}
+	imgtrap[11]="CS3";
+	imgtrap[10]="CS2";
+	imgtrap[9]="CS1";
+	imgtrap[8]="CA3";
+	imgtrap[7]="CA2";
+	imgtrap[6]="CA1";
+	imgtrap[5]="CB3";
+	imgtrap[4]="CB2";
+	imgtrap[3]="CB1";
+	imgtrap[2]="CC3";
+	imgtrap[1]="CC2";
+	imgtrap[0]="CC1";
+	//------------------------------------------------------------------
+	int y=1;
+	for(int i=0; i<12; i++){
+		if(y%10==4){
+			y=y+10-3;
+		}
+		number_of_tsure[i]=y;
+		y++;
+	}
+	
+	imgtsure[11]="TS3";
+	imgtsure[10]="TS2";
+	imgtsure[9]="TS1";
+	imgtsure[8]="TA3";
+	imgtsure[7]="TA2";
+	imgtsure[6]="TA1";
+	imgtsure[5]="TB3";
+	imgtsure[4]="TB2";
+	imgtsure[3]="TB1";
+	imgtsure[2]="TC3";
+	imgtsure[1]="TC2";
+	imgtsure[0]="TC1";
+}
+
+
+void Trap_Tsure::testshow(){
+	cout<<endl<<"trap \n";
+	for(int i=0; i<12; i++){
+		cout<<number_of_trap[i]<<" "<<imgtrap[i];
+		cout<<endl;
+	}
+	cout<<"tsure \n";
+	for(int i=0; i<12; i++){
+		cout<<number_of_tsure[i]<<" "<<imgtsure[i];
+		cout<<endl;
+	}
+}
+
+
+
+//-------------------------(Class&func for player)
 class Player{
 	string name;
 	string collect_trap[5];
@@ -30,18 +97,21 @@ class Player{
 	Trap_Tsure collect;
 	public:
 		int move;
+		int roll;
 		void newturn();
 		void diceturn();
 		void changhp(int );
 		void dice();
 		void totalscore();
 		void choosechar();	
+		void check(int );
 };
  
 void Player::dice(){
 	if(dice_on==1){
-		move=(rand()%6)+1;
+		roll=(rand()%6)+1;
 	}
+	move+=roll;
 }
 void Player::diceturn(){
 	dice_on = true;
@@ -50,11 +120,20 @@ void Player::diceturn(){
 void Player::newturn(){
 	dice_on = false;
 }
+
+void Player::check(int a){
+	if(move>a){
+		move=move-a;
+	}
+}
+//------------------------(Grobal)
 string a[3][6];
 int ice=0;
 void mademap(int ,int ,int );
 void update(int ,int ,int );
 
+
+//-------------------------(main)
 int main(){
 	Player one;
 	Player two;
@@ -67,14 +146,18 @@ int main(){
             a[i][j]=" ";
         }
     }
-    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------(print to screen)
     one.newturn();
   	two.newturn();
   	one.move=0;
   	two.move=0;
+  	one.roll=0;
+  	two.roll=0;
   	char action;
-  	mademap(i,j,one.move);
+  	mademap(i,j,one.roll);
    while(true){
+		one.newturn();
+  		two.newturn();
 		cout<<"Please PlayerI choose action in your turn\npress [D] = Dice, [U] = Use item, [E] = Exit \n";
   		cout<<"Your device: ";
   		cin>>action;
@@ -87,14 +170,20 @@ int main(){
 			system("pause");
 			one.diceturn();
   			one.dice();
-    		cout<<"Your luck is: "<<one.move<<endl;
+    		cout<<"Your luck is: "<<one.roll<<endl;
+    		one.check(i*j);
+    		cout<<one.move<<endl;
     		mademap(i,j,one.move);
 		}else{
 			//write use item
 		}	
 	}
+	//------------------------------------------------------------------------------- test number of trap and img
+	Trap_Tsure show;
+	show.testshow();
     return 0;
 }
+
 
 
 void mademap(int n,int m, int go){
@@ -104,16 +193,19 @@ void mademap(int n,int m, int go){
     for(int h=0; h<m; h++){
         cout<<"- - - -";
     }
-    x=0;
     cout<<endl;
-    for(int k=0; k<n; k++){
-        for(int i=0;i<3;i++){
-            for(int p=0;p<m;p++){
+	x=0;	
+    for(int k=0; k<n; k++){ //roll for the blog.
+        for(int i=0;i<3;i++){ //roll in each space.
+            for(int p=0;p<m;p++){ //column for the blog.
                 cout<<"|"; 
-                for(int j=0;j<6;j++){
-                    if(ber==go+(m*num)){
-                        a[0][0]="*";
-                    }
+                if((go/m)==k && (go%m)==p){
+                    	a[0][0]="*";
+					}
+				for(int j=0;j<6;j++){ //column in each space.
+                   /* if(ber==go+(m*num)){
+                    	a[0][0]="*";
+                    }*/
 					char buffer[100];
                     if(i==1 && j==3){
                         a[1][2]=itoa(x,buffer,10);//to_string can't complie on dev-c++ because gcc(11) then use like this link-->
@@ -122,18 +214,18 @@ void mademap(int n,int m, int go){
 						a[1][3]=itoa(y,buffer,10);
                         y++;
                     }
-                    else if(i==1 && j==2){
+                    else if(i==1 && j==2){// plus two digits. 00 10  20 30
                         a[1][2]=a[1][2]=itoa(x,buffer,10);
-                        a[1][3]=a[1][3]=itoa(y,buffer,10);
+                        a[1][3]=a[1][3]=itoa(y,buffer,10); // can dismiss this line.
                     }
-                        cout<<a[i][j];
-                        if(y>9){
-                            y=0;
-                            x++;
-                        }
+                    cout<<a[i][j];
+                    if(y>9){
+                        y=0;
+                        x++;
+                    }
                 }
                 a[0][0]=" ";
-                ber++;
+            //   	ber++;
             }
             cout<<"|";
             cout<<endl;
@@ -142,6 +234,8 @@ void mademap(int n,int m, int go){
             cout<<"- - - -";
         }
         cout<<endl;
-        num+=2;
+     //   num+=2;
     }
 }
+
+
