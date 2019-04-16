@@ -34,26 +34,26 @@ void RandforEffect(int y){//Rand eff
 	int z = 0;
 	z=rand()%3;
 	cout<<"Eff is "<<z<<'\n';
-	if(y == 4){
-		if(z == 0) SEffect(1);
-		else if(z == 1) SEffect(2);
-		else if(z == 2) SEffect(3);
+	if(y == 7){
+		if(z == 1) SEffect(1);
+		else if(z == 2) SEffect(2);
+		else if(z == 3) SEffect(3);
 	}
-	if(y == 5){
-		if( z == 0) AEffect(1);
-		else if(z == 1) AEffect(2);
-		else if(z == 2) AEffect(3);
+	if(y == 6){
+		if( z == 1) AEffect(1);
+		else if(z == 2) AEffect(2);
+		else if(z == 3) AEffect(3);
 	}
 	
-	if(y == 6){
-		if( z == 0) BEffect(1);
-		else if(z == 1) BEffect(2);
-		else if(z == 2) BEffect(3);
+	if(y == 5){
+		if( z == 1) BEffect(1);
+		else if(z == 2) BEffect(2);
+		else if(z == 3) BEffect(3);
 	}
-	if(y == 7){
-		if( z == 0) CEffect(1);
-		else if(z == 1) CEffect(2);
-		else if(z == 2) CEffect(3);
+	if(y == 4){
+		if( z == 1) CEffect(1);
+		else if(z == 2) CEffect(2);
+		else if(z == 3) CEffect(3);
 	}
 }
 
@@ -62,17 +62,17 @@ void Tra(bool x){
 	int y =rand()%4+4;//Select Class S-C 
 	cout<<"Trap Class is "<<y<<'\n';
 
-	if(y == 4){//S class
-		RandforEffect(4);
+	if(y == 7){//S class
+		RandforEffect(7);
 	}
-	else if(y == 5){//A Class
-		RandforEffect(5);
-	}
-	else if(y == 6){//B Class
+	else if(y == 6){//A Class
 		RandforEffect(6);
 	}
-	else if(y == 7){//C Class
-		RandforEffect(7);
+	else if(y == 5){//B Class
+		RandforEffect(5);
+	}
+	else if(y == 4){//C Class
+		RandforEffect(4);
 	}
 }
 
@@ -96,7 +96,7 @@ void SEffect(int q){
 }
 
 void AEffect(int q){
-	if(q == 1){
+	if(q == 3){
 	bloode(-4);
 	pointed(-2);
 	cout<<"The eff is -4 HP -2 Point(A)"<<'\n';		
@@ -106,7 +106,7 @@ void AEffect(int q){
 	//add 3 step back
 	cout<<"3 step back and -1 point(A)"<<'\n';
 	}
-	if(q == 3){
+	if(q == 1){
 	bloode(-2);
 	//add dice lock
 	cout<<"-2 HP and dice lock(1)(A)"<<'\n';
