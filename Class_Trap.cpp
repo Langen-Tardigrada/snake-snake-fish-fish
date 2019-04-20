@@ -133,7 +133,6 @@ void Trap::BEffect(int q){
 	//add take eff x2 eff
 	cout<<"- 1 Point and take effx2(B)"<<'\n';
 	}
-
 }
 
 void Trap::CEffect(int q){
