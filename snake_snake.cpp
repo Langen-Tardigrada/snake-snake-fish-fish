@@ -25,13 +25,18 @@ class Trap_Tsure{
 	string imgtsure[12];
 	public:
 		Trap_Tsure();
-		void showtrap_tsure_map();
-		void showtsure_player();
-		void showtrap_player();
-		void list_trap();
-		void list_tsure();
+		void showtrap_tsure_map();//not now
+		void showtsure_player();//not now
+		void showtrap_player();//not now
+		void list_trap();//not now
+		void list_tsure();//not now
 		void testshow();
+        void randomitem(int ,int );
 };
+
+void Trap_Tsure::randomitem(int a,int b){
+    
+}
 
 Trap_Tsure::Trap_Tsure(){
 	int x=41;
