@@ -13,6 +13,9 @@ int point=0;
 int ice=0;
 void mademap(int ,int ,int );
 void update(int ,int ,int );
+bool check=false;
+void built_screen();
+int turn=0;
 
 //-----------------------------(class&func for trap+tsure)
 class Trap_Tsure{
@@ -22,13 +25,18 @@ class Trap_Tsure{
 	string imgtsure[12];
 	public:
 		Trap_Tsure();
-		void showtrap_tsure_map();
-		void showtsure_player();
-		void showtrap_player();
-		void list_trap();
-		void list_tsure();
+		void showtrap_tsure_map();//not now
+		void showtsure_player();//not now
+		void showtrap_player();//not now
+		void list_trap();//not now
+		void list_tsure();//not now
 		void testshow();
+        void randomitem(int ,int );
 };
+
+void Trap_Tsure::randomitem(int a,int b){
+    
+}
 
 Trap_Tsure::Trap_Tsure(){
 	int x=41;
@@ -89,7 +97,14 @@ void Trap_Tsure::testshow(){
 	}
 }
 
-
+void Trap_Tsure::showtrap_tsure_map(){
+    int a = rand()%5+1;
+    if(a==5){
+        check=true;
+        
+    }else check=false;
+    
+}
 
 //-------------------------(Class&func for player)
 class Player{
@@ -117,7 +132,7 @@ class Player{
  
 void Player::dice(){
 	if(dice_on==1){
-		roll=(rand()%6)+1;
+		roll=(rand()%6+1);
 	}
 	move+=roll;
 }
@@ -187,7 +202,8 @@ void Tsure::RandforEffect(int y){//Rand eff
 void Tsure::Tra(bool x){
 
 	int y =rand()%4+4;//Select Class S-C 
-	cout<<"Treasure Class is "<<y<<'\n';
+	
+	cout<<"Treasure Class is "<<(y==4? 'S': y==5? 'A' : y==6? 'B' :'C')<<'\n';
 
 	if(y == 4){//S class
 		RandforEffect(4);
@@ -325,7 +341,7 @@ void Trap::RandforEffect(int y){//Rand eff
 void Trap::Tra(bool x){
 
 	int y =rand()%4+4;//Select Class S-C 
-	cout<<"Trap Class is "<<y<<'\n';
+	cout<<"Trap Class is "<<(y==4? 'S': y==5? 'A' : y==6? 'B' :'C')<<'\n';
 
 	if(y == 7){//S class
 		RandforEffect(7);
@@ -413,7 +429,6 @@ void Trap::CEffect(int q){
 
 }
 
-
 //-------------------------(main)
 int main(){
 	Player one;
@@ -435,8 +450,9 @@ int main(){
   	one.roll=0;
   	two.roll=0;
   	char action;
+	built_screen();
   	mademap(i,j,one.roll);
-   while(true){
+    while(true){
 		one.newturn();
   		two.newturn();
 		cout<<"Please PlayerI choose action in your turn\npress [D] = Dice, [U] = Use item, [E] = Exit \n";
@@ -455,7 +471,7 @@ int main(){
     		one.check(i*j);
     		cout<<one.move<<endl;
     		mademap(i,j,one.move);
-    		int Trap_Or_Tsure;
+			int Trap_Or_Tsure;
     		Trap_Or_Tsure=rand()%2+1;
     		Tsure scan;
     		Trap scan2;
@@ -472,12 +488,24 @@ int main(){
     return 0;
 }
 
-
+void built_screen(){
+    cout<<"\tSNAKE"<<"\t\tTurn: "<<turn<<endl;
+    cout<<"\tPlayer1 :name"<<"\t\t\t\t\t\t\t\t\t"<<"\t\t                    Player2 :name"<<endl;//edit name
+    cout<<"\tHp:[][][][][][][][]"<<"\t\t\t\t\t\t\t\t\t"<<"\t\t                Hp:[][][][][][][][]"<<endl;//edit hp
+    cout<<"TRAP             "<<"\t|"<<"\t\tTREASURE    "<<"\t\t\t\t\t\t\t\t\t        "<<"TRAP             "<<"\t|"<<"\t\tTREASURE"<<endl<<endl;
+    cout<<"***TRAP's Members"<<"\t|"<<"\t\t***TREASURE's Members"<<"\t\t\t\t\t\t\t\t\t"<<"***TRAP's Members"<<"\t|"<<"\t\t***TREASURE's Members"<<endl;
+}
 
 void mademap(int n,int m, int go){
+	Trap_Tsure tt;
     int x=0,y=1;
     int ber=0;
     int num=0;
+	bool kuy[n*m];
+	for(int i=0;i<sizeof(kuy);i++){
+        kuy[i]=false;
+    }
+    cout<<"\t\t\t\t\t\t\t";
     for(int h=0; h<m; h++){
         cout<<"- - - -";
     }
@@ -485,11 +513,24 @@ void mademap(int n,int m, int go){
 	x=0;	
     for(int k=0; k<n; k++){ //roll for the blog.
         for(int i=0;i<3;i++){ //roll in each space.
+			cout<<"\t\t\t\t\t\t\t";
             for(int p=0;p<m;p++){ //column for the blog.
                 cout<<"|"; 
                 if((go/m)==k && (go%m)==p){
                     	a[0][0]="*";
 					}
+				if(turn%5==0){
+                    tt.showtrap_tsure_map();
+                if(check==true){
+                        a[1][1]="+";
+                        kuy[num]=1;
+                    }
+                if(check==false){
+                        a[1][1]=" ";
+                        kuy[num]=0;     
+                    }
+                }
+				num++;
 				for(int j=0;j<6;j++){ //column in each space.
                    /* if(ber==go+(m*num)){
                     	a[0][0]="*";
@@ -518,10 +559,16 @@ void mademap(int n,int m, int go){
             cout<<"|";
             cout<<endl;
         }
+		cout<<"\t\t\t\t\t\t\t";
         for(int h=0; h<m; h++){
             cout<<"- - - -";
         }
         cout<<endl;
      //   num+=2;
+    }
+	turn++;
+
+	for(int i=0;i<sizeof(kuy);i++){
+        cout<<kuy[i];
     }
 }
