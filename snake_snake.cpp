@@ -24,6 +24,9 @@ class Trap_Tsure{
 	string imgtrap[12];
 	string imgtsure[12];
 	public:
+		vector<int> showitem;
+		vector<int> no_trap;
+		vector<int> no_tsure;
 		Trap_Tsure();
 		void showtrap_tsure_map();//not now
 		void showtsure_player();//not now
@@ -35,7 +38,43 @@ class Trap_Tsure{
 };
 
 void Trap_Tsure::randomitem(int a,int b){
-    
+    //percent to put out on map.
+	int percent_put_out = (40/100)*a*b;
+	int p = percent_put_out;
+	int check,no_map;
+	showitem.push_back(0);
+	for(int i=0; i<p; i++){
+		int random = rand()%100+1;
+		if(random<=40){
+			no_map = rand()%(a*b)+1;
+			check = rand()%2+1;
+			if(showitem[0]==0){
+				showitem.erase(showitem.begin());
+				if(check==1){
+					showitem.push_back(no_map);
+					no_trap.push_back(no_map);
+				}else if(check==2){
+					showitem.push_back(no_map);
+					no_tsure.push_back(no_map);
+				}	
+			}else{
+				for(int j=0; j<showitem.size(); j++){
+					if(no_map!=showitem[j]){
+						if(check==1){
+							showitem.push_back(no_map);
+							no_trap.push_back(no_map);
+						}else if(check==2){
+							showitem.push_back(no_map);
+							no_tsure.push_back(no_map);
+						}
+						break;
+					}
+				}
+			}
+		}else{
+			i--;
+		}
+	}
 }
 
 Trap_Tsure::Trap_Tsure(){
@@ -174,53 +213,53 @@ void Tsure::pointed(int pointy){
 
 void Tsure::RandforEffect(int y){//Rand eff
 	int z = 0;
-	z=rand()%3;
+	z=rand()%3+1;
 	cout<<"You got "<<z<<" Eff.\n";
-	if(y == 4){
-		if(z == 0) SEffect(1);
-		else if(z == 1) SEffect(2);
-		else if(z == 2) SEffect(3);
+	if(y == 3){
+		if(z == 3) SEffect(3);
+		else if(z == 2) SEffect(2);
+		else if(z == 1) SEffect(1);
 	}
-	if(y == 5){
-		if( z == 0) AEffect(1);
-		else if(z == 1) AEffect(2);
-		else if(z == 2) AEffect(3);
+	if(y == 2){
+		if( z == 3) AEffect(3);
+		else if(z == 2) AEffect(2);
+		else if(z == 1) AEffect(1);
 	}
 	
-	if(y == 6){
-		if( z == 0) BEffect(1);
-		else if(z == 1) BEffect(2);
-		else if(z == 2) BEffect(3);
+	if(y == 1){
+		if( z == 3) BEffect(3);
+		else if(z == 2) BEffect(2);
+		else if(z == 1) BEffect(1);
 	}
-	if(y == 7){
-		if( z == 0) CEffect(1);
-		else if(z == 1) CEffect(2);
-		else if(z == 2) CEffect(3);
+	if(y == 0){
+		if( z == 3) CEffect(3);
+		else if(z == 2) CEffect(2);
+		else if(z == 1) CEffect(1);
 	}
 }
 
 void Tsure::Tra(bool x){
 
-	int y =rand()%4+4;//Select Class S-C 
+	int y =rand()%4;//Select Class S-C 
 	
 	cout<<"Treasure Class is "<<(y==4? 'S': y==5? 'A' : y==6? 'B' :'C')<<'\n';
 
-	if(y == 4){//S class
-		RandforEffect(4);
+	if(y == 3){//S class
+		RandforEffect(3);
 	}
-	else if(y == 5){//A Class
-		RandforEffect(5);
+	else if(y == 2){//A Class
+		RandforEffect(2);
 	}
-	else if(y == 6){//B Class
-		RandforEffect(6);
+	else if(y == 1){//B Class
+		RandforEffect(1);
 	}
-	else if(y == 7){//C Class
-		RandforEffect(7);
+	else if(y == 0){//C Class
+		RandforEffect(0);
 	}
 }
 
 void Tsure::SEffect(int q){
-	if(q == 1){
+	if(q == 3){
 	//bloode(10);//Func eff 
 	pointed(3);
 	cout<<"The eff is +10 HP(when die) +3 point(S)"<<'\n';		
@@ -230,7 +269,7 @@ void Tsure::SEffect(int q){
 	//add move forward eff
 	cout<<"The eff is +3 point and move forward 5 step(Active)(S)"<<'\n';
 	}
-	if(q == 3){
+	if(q == 1){
 	pointed(3);//Func eff
 	//add clear bad-eff
 	cout<<"clear bad-effect(Active) and +3 point(S)"<<'\n';
@@ -267,7 +306,7 @@ void Tsure::BEffect(int q){
 	cout<<"-1 HP enimies(Active)(B)"<<'\n';
 	}
 	if(q == 3){
-	pointed(-1);
+	pointed(1);
 	//add dice 2 times if first dice= second dice move forward along to the dice
 	cout<<"dice 2 times(Active)(B)"<<'\n';
 	}
