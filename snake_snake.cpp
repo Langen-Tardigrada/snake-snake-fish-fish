@@ -28,7 +28,8 @@ class Trap_Tsure{
 		vector<int> no_trap;
 		vector<int> no_tsure;
 		Trap_Tsure();
-		void showtrap_tsure_map();//not now
+		void show_no_trap_tsure_map();
+		void showtrap_tsure_map();
 		void showtsure_player();//not now
 		void showtrap_player();//not now
 		void list_trap();//not now
@@ -37,44 +38,47 @@ class Trap_Tsure{
         void randomitem(int ,int );
 };
 
+void Trap_Tsure::show_no_trap_tsure_map(){
+	cout<<endl<<"้show random item";
+	for(int i=0; i<showitem.size(); i++){
+		cout<<showitem[i]<<" ";
+	}
+	cout<<"\nshow random trap\n";
+	for(int i=0; i<no_trap.size(); i++){
+		cout<<no_trap[i]<<" ";
+	}
+	cout<<"\nshow random tsure\n";
+	for(int i=0; i<no_tsure.size(); i++){
+		cout<<no_tsure[i]<<" ";
+	}
+}
 void Trap_Tsure::randomitem(int a,int b){
     //percent to put out on map.
-	int percent_put_out = (40/100)*a*b;
-	int p = percent_put_out;
-	int check,no_map;
+	int percent_put_out = (double (40.0/100.0))*a*b;
+	int check,no;
 	showitem.push_back(0);
-	for(int i=0; i<p; i++){
+	for(int i=0; i<percent_put_out; i++){
 		int random = rand()%100+1;
 		if(random<=40){
-			no_map = rand()%(a*b)+1;
-			check = rand()%2+1;
-			if(showitem[0]==0){
-				showitem.erase(showitem.begin());
-				if(check==1){
-					showitem.push_back(no_map);
-					no_trap.push_back(no_map);
-				}else if(check==2){
-					showitem.push_back(no_map);
-					no_tsure.push_back(no_map);
-				}	
-			}else{
+			no = rand()%(a*b)+1;
 				for(int j=0; j<showitem.size(); j++){
-					if(no_map!=showitem[j]){
+					if(no!=showitem[j]){
+					check = rand()%2+1;
 						if(check==1){
-							showitem.push_back(no_map);
-							no_trap.push_back(no_map);
+							showitem.insert(showitem.begin(),no);
+							no_trap.push_back(no);
 						}else if(check==2){
-							showitem.push_back(no_map);
-							no_tsure.push_back(no_map);
+							showitem.insert(showitem.begin(),no);
+							no_tsure.push_back(no);
 						}
 						break;
 					}
 				}
-			}
 		}else{
-			i--;
+			percent_put_out++;
 		}
 	}
+	showitem.erase(showitem.begin()+((showitem.size())-1));
 }
 
 Trap_Tsure::Trap_Tsure(){
@@ -472,6 +476,7 @@ void Trap::CEffect(int q){
 int main(){
 	Player one;
 	Player two;
+	Trap_Tsure show;
     srand(time(0));
     int i=0,j=0;
     cout<<"Input heightxlenght: ";
@@ -524,6 +529,7 @@ int main(){
 	//------------------------------------------------------------------------------- test number of trap and img
 	Trap_Tsure show;
 	show.testshow();
+	show.show_no_trap_tsure_map();
     return 0;
 }
 
