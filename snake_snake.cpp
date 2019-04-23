@@ -24,8 +24,12 @@ class Trap_Tsure{
 	string imgtrap[12];
 	string imgtsure[12];
 	public:
+		vector<int> showitem;
+		vector<int> no_trap;
+		vector<int> no_tsure;
 		Trap_Tsure();
-		void showtrap_tsure_map();//not now
+		void show_no_trap_tsure_map();
+		void showtrap_tsure_map();
 		void showtsure_player();//not now
 		void showtrap_player();//not now
 		void list_trap();//not now
@@ -34,8 +38,47 @@ class Trap_Tsure{
         void randomitem(int ,int );
 };
 
+void Trap_Tsure::show_no_trap_tsure_map(){
+	cout<<endl<<"้show random item";
+	for(int i=0; i<showitem.size(); i++){
+		cout<<showitem[i]<<" ";
+	}
+	cout<<"\nshow random trap\n";
+	for(int i=0; i<no_trap.size(); i++){
+		cout<<no_trap[i]<<" ";
+	}
+	cout<<"\nshow random tsure\n";
+	for(int i=0; i<no_tsure.size(); i++){
+		cout<<no_tsure[i]<<" ";
+	}
+}
 void Trap_Tsure::randomitem(int a,int b){
-    
+    //percent to put out on map.
+	int percent_put_out = (double (40.0/100.0))*a*b;
+	int check,no;
+	showitem.push_back(0);
+	for(int i=0; i<percent_put_out; i++){
+		int random = rand()%100+1;
+		if(random<=40){
+			no = rand()%(a*b)+1;
+				for(int j=0; j<showitem.size(); j++){
+					if(no!=showitem[j]){
+					check = rand()%2+1;
+						if(check==1){
+							showitem.insert(showitem.begin(),no);
+							no_trap.push_back(no);
+						}else if(check==2){
+							showitem.insert(showitem.begin(),no);
+							no_tsure.push_back(no);
+						}
+						break;
+					}
+				}
+		}else{
+			percent_put_out++;
+		}
+	}
+	showitem.erase(showitem.begin()+((showitem.size())-1));
 }
 
 Trap_Tsure::Trap_Tsure(){
@@ -174,53 +217,53 @@ void Tsure::pointed(int pointy){
 
 void Tsure::RandforEffect(int y){//Rand eff
 	int z = 0;
-	z=rand()%3;
+	z=rand()%3+1;
 	cout<<"You got "<<z<<" Eff.\n";
-	if(y == 4){
-		if(z == 0) SEffect(1);
-		else if(z == 1) SEffect(2);
-		else if(z == 2) SEffect(3);
+	if(y == 3){
+		if(z == 3) SEffect(3);
+		else if(z == 2) SEffect(2);
+		else if(z == 1) SEffect(1);
 	}
-	if(y == 5){
-		if( z == 0) AEffect(1);
-		else if(z == 1) AEffect(2);
-		else if(z == 2) AEffect(3);
+	if(y == 2){
+		if( z == 3) AEffect(3);
+		else if(z == 2) AEffect(2);
+		else if(z == 1) AEffect(1);
 	}
 	
-	if(y == 6){
-		if( z == 0) BEffect(1);
-		else if(z == 1) BEffect(2);
-		else if(z == 2) BEffect(3);
+	if(y == 1){
+		if( z == 3) BEffect(3);
+		else if(z == 2) BEffect(2);
+		else if(z == 1) BEffect(1);
 	}
-	if(y == 7){
-		if( z == 0) CEffect(1);
-		else if(z == 1) CEffect(2);
-		else if(z == 2) CEffect(3);
+	if(y == 0){
+		if( z == 3) CEffect(3);
+		else if(z == 2) CEffect(2);
+		else if(z == 1) CEffect(1);
 	}
 }
 
 void Tsure::Tra(bool x){
 
-	int y =rand()%4+4;//Select Class S-C 
+	int y =rand()%4;//Select Class S-C 
 	
 	cout<<"Treasure Class is "<<(y==4? 'S': y==5? 'A' : y==6? 'B' :'C')<<'\n';
 
-	if(y == 4){//S class
-		RandforEffect(4);
+	if(y == 3){//S class
+		RandforEffect(3);
 	}
-	else if(y == 5){//A Class
-		RandforEffect(5);
+	else if(y == 2){//A Class
+		RandforEffect(2);
 	}
-	else if(y == 6){//B Class
-		RandforEffect(6);
+	else if(y == 1){//B Class
+		RandforEffect(1);
 	}
-	else if(y == 7){//C Class
-		RandforEffect(7);
+	else if(y == 0){//C Class
+		RandforEffect(0);
 	}
 }
 
 void Tsure::SEffect(int q){
-	if(q == 1){
+	if(q == 3){
 	//bloode(10);//Func eff 
 	pointed(3);
 	cout<<"The eff is +10 HP(when die) +3 point(S)"<<'\n';		
@@ -230,7 +273,7 @@ void Tsure::SEffect(int q){
 	//add move forward eff
 	cout<<"The eff is +3 point and move forward 5 step(Active)(S)"<<'\n';
 	}
-	if(q == 3){
+	if(q == 1){
 	pointed(3);//Func eff
 	//add clear bad-eff
 	cout<<"clear bad-effect(Active) and +3 point(S)"<<'\n';
@@ -267,7 +310,7 @@ void Tsure::BEffect(int q){
 	cout<<"-1 HP enimies(Active)(B)"<<'\n';
 	}
 	if(q == 3){
-	pointed(-1);
+	pointed(1);
 	//add dice 2 times if first dice= second dice move forward along to the dice
 	cout<<"dice 2 times(Active)(B)"<<'\n';
 	}
@@ -433,6 +476,7 @@ void Trap::CEffect(int q){
 int main(){
 	Player one;
 	Player two;
+	Trap_Tsure show;
     srand(time(0));
     int i=0,j=0;
     cout<<"Input heightxlenght: ";
@@ -485,6 +529,7 @@ int main(){
 	//------------------------------------------------------------------------------- test number of trap and img
 	Trap_Tsure show;
 	show.testshow();
+	show.show_no_trap_tsure_map();
     return 0;
 }
 
