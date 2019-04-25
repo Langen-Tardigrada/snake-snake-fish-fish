@@ -10,8 +10,8 @@ using namespace std;
 
 //------------------------(Grobal)
 string a[3][6];
-int blood=10;
-int point=0;
+//int blood=10;
+//int point=0;
 int ice=0;
 vector<int> list_item;
 vector<int> list_trap;
@@ -210,13 +210,14 @@ class Player{
 	public:
 		//Trap store_trap;
 		//Tsure store_tsure;
+		Player();
 		int move;
 		int roll;
 		void newturn();
 		void diceturn();
 		void changhp(int );
 		void dice();
-		void totalscore();
+		//void totalscore();
 		void choosechar();	
 		void check(int );//How many is player move?
 		void pointed(int );//*Point
@@ -236,7 +237,11 @@ class Player{
 		void trap_RandforEffect(int );//***Rand eff
 		void trap_Tra(bool );//****Rand Trap Class
 };
- 
+
+Player::Player(){
+	score = 0; hpmax = 10; hp = 10;
+}
+
 void Player::dice(){
 	if(dice_on==1){
 		roll=(rand()%6+1);
@@ -258,12 +263,14 @@ void Player::check(int a){
 	}
 }
 
-void Player::bloode(int bloody){
-	cout<<"Now Your HP = "<<blood+bloody<<'\n';
+void Player::bloode(int blood){
+	hp+=blood;
+	cout<<"Now Your HP = "<<hp<<'\n';
 }
 
-void Player::pointed(int pointy){
-	cout<<"Now Your Point = "<<point+pointy<<'\n';
+void Player::pointed(int point){
+	score+=point;
+	cout<<"Now Your Point = "<<score<<'\n';
 }
 
 //-------------------------(Tsure of class player)
