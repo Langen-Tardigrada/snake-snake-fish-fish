@@ -39,7 +39,7 @@ class Trap_Tsure{
 };
 
 void Trap_Tsure::show_no_trap_tsure_map(){
-	cout<<endl<<"้show random item";
+	cout<<endl<<"show random item\n";
 	for(int i=0; i<showitem.size(); i++){
 		cout<<showitem[i]<<" ";
 	}
@@ -486,6 +486,7 @@ int main(){
             a[i][j]=" ";
         }
     }
+	
     //-------------------------------------------------------------------------(print to screen)
     one.newturn();
   	two.newturn();
@@ -494,6 +495,7 @@ int main(){
   	one.roll=0;
   	two.roll=0;
   	char action;
+  	
 	built_screen();
   	mademap(i,j,one.roll);
     while(true){
@@ -527,8 +529,8 @@ int main(){
 		}	
 	}
 	//------------------------------------------------------------------------------- test number of trap and img
-	Trap_Tsure show;
-	show.testshow();
+	show.testshow();	
+	show.randomitem(i,j);
 	show.show_no_trap_tsure_map();
     return 0;
 }
@@ -536,7 +538,7 @@ int main(){
 void built_screen(){
     cout<<"\tSNAKE"<<"\t\tTurn: "<<turn<<endl;
     cout<<"\tPlayer1 :name"<<"\t\t\t\t\t\t\t\t\t"<<"\t\t                    Player2 :name"<<endl;//edit name
-    cout<<"\tHp:[][][][][][][][]"<<"\t\t\t\t\t\t\t\t\t"<<"\t\t                Hp:[][][][][][][][]"<<endl;//edit hp
+    cout<<"\tHp:||||||||||"<<"\t\t\t\t\t\t\t\t\t"<<"\t\t                Hp:||||||||||"<<endl;//edit hp
     cout<<"TRAP             "<<"\t|"<<"\t\tTREASURE    "<<"\t\t\t\t\t\t\t\t\t        "<<"TRAP             "<<"\t|"<<"\t\tTREASURE"<<endl<<endl;
     cout<<"***TRAP's Members"<<"\t|"<<"\t\t***TREASURE's Members"<<"\t\t\t\t\t\t\t\t\t"<<"***TRAP's Members"<<"\t|"<<"\t\t***TREASURE's Members"<<endl;
 }
@@ -606,7 +608,7 @@ void mademap(int n,int m, int go){
         }
 		cout<<"\t\t\t\t\t\t\t";
         for(int h=0; h<m; h++){
-            cout<<"- - - -";
+            cout<<"- - - -";  
         }
         cout<<endl;
      //   num+=2;
