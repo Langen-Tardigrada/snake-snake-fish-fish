@@ -575,15 +575,15 @@ void mademap(int n,int m, int go){
                     
                     char buffer[100];
                     if(i==1 && j==3){
-                        a[1][2]=itoa(x,buffer,10);//to_string can't complie on dev-c++ because gcc(11) then use like this link-->
+                        a[1][2]=to_string(x);//to_string can't complie on dev-c++ because gcc(11) then use like this link-->
                         //http://www.cplusplus.com/reference/cstdlib/itoa/
                         //use this--> https://fresh2refresh.com/c-programming/c-type-casting/c-itoa-function/
-                        a[1][3]=itoa(y,buffer,10);
+                        a[1][3]=to_string(y);
                         y++;
                     }
                     else if(i==1 && j==2){// plus two digits. 00 10  20 30
-                        a[1][2]=a[1][2]=itoa(x,buffer,10);
-                        a[1][3]=a[1][3]=itoa(y,buffer,10); // can dismiss this line.
+                        a[1][2]=a[1][2]=to_string(x);
+                        a[1][3]=a[1][3]=to_string(y); // can dismiss this line.
                     }
                     cout<<a[i][j];
                     if(y>9){
